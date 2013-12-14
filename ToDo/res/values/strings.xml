@@ -16,7 +16,7 @@
     <string name="btnOk">OK</string>
     <string name="btnCancelar">Cancelar</string>
 
-    <!-- Titulo activity -->
+    <!-- Titulo activity --> 
     <string name="title_activity_cadastrar_usuario">Cadastrar Usuário</string>
     <string name="title_activity_activity_lista_tarefas">To Do</string>
 
