@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ToDo</string>
+    <string name="app_name">ToDo by Alexis</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Label -->
+    <string name="lblTelefone">Telefone:</string>
+    <string name="lblSenha">Senha:</string>
+    <string name="lblUsuarioNaoCadastrado">Não Cadastrado?</string>
+    <string name="lblEmail">Email:</string>
+
+    <!-- Button -->
+    <string name="btnLogin">Login</string>
     <string name="hello_world">Hello world!</string>
+    <string name="btnOk">OK</string>
+    <string name="btnCancelar">Cancelar</string>
+
+    <!-- Titulo activity -->
+    <string name="title_activity_cadastrar_usuario">Cadastrar Usuário</string>
+    <string name="title_activity_activity_lista_tarefas">ActivityListaTarefas</string>
 
 </resources>
