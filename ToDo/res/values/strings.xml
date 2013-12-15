@@ -9,15 +9,22 @@
     <string name="lblSenha">Senha:</string>
     <string name="lblUsuarioNaoCadastrado">Não Cadastrado?</string>
     <string name="lblEmail">Email:</string>
+    <string name="lblNome">Nome:</string>
+    <string name="lblObservacao">Observação:</string>
+    <string name="lblDataFinalizacao">Data Finalização:</string>
 
     <!-- Button -->
     <string name="btnLogin">Login</string>
-    <string name="hello_world">Hello world!</string>
     <string name="btnOk">OK</string>
     <string name="btnCancelar">Cancelar</string>
+    <string name="btnAdicionarTarefa">+</string>
 
-    <!-- Titulo activity --> 
+    <!-- Titulo activity -->
     <string name="title_activity_cadastrar_usuario">Cadastrar Usuário</string>
     <string name="title_activity_activity_lista_tarefas">To Do</string>
+    <string name="title_activity_activity_cadastrar_tarefa">ActivityCadastrarTarefa</string>
+    
+    <!-- Checkbox -->
+    <string name="ckbNotificar">Notificar?</string>
 
 </resources>

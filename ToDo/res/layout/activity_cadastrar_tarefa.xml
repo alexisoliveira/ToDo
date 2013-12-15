@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -12,14 +13,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/lblTelefone" />
+        android:text="@string/lblNome" />
 
     <EditText
-        android:id="@+id/txtTelefone"
+        android:id="@+id/txtNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="phone" >
+        android:inputType="text" >
 
         <requestFocus />
     </EditText>
@@ -28,38 +29,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/lblSenha" />
+        android:text="@string/lblObservacao" />
 
     <EditText
-        android:id="@+id/txtSenha"
+        android:id="@+id/txtObservacao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPassword"
-        android:maxLength="8" />
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="20dp"
-        android:text="@string/btnLogin" />
+        android:inputType="text" />
 
     <TextView
-        android:id="@+id/lblUsuarioNaoCadastrado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:clickable="true"
-        android:onClick="onClick"
-        android:text="@string/lblUsuarioNaoCadastrado" />
+        android:layout_marginTop="20dp"
+        android:text="@string/lblDataFinalizacao" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
+    <EditText
+        android:id="@+id/txtDataFinalizacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text" />
+
+    <CheckBox
+        android:id="@+id/ckbNotificar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right" />
+        android:text="@string/ckbNotificar" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/btnOk" />
+
+        <Button
+            android:id="@+id/btnCancelar"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/btnCancelar" />
+    </LinearLayout>
+
 
 </LinearLayout>

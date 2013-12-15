@@ -1,7 +1,6 @@
 package br.com.alexisoliveira.todo;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -37,11 +36,14 @@ public class ActivityPrincipal extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.btnLogin) {
+			/*
 			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 			alertDialog.setTitle("Info");
 			alertDialog.setMessage("Usuário logado com sucesso!");
 			// Set the Icon for the Dialog
 			alertDialog.show();
+			*/
+			
 			startListaTarefaActivity();
 			
 		} else if (v.getId() == R.id.lblUsuarioNaoCadastrado) {
