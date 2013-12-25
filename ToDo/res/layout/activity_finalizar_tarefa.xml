@@ -10,20 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin" >
 
     <TextView
+        android:id="@+id/lblTarefa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/lblNome" />
-
-    <EditText
-        android:id="@+id/txtNome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" >
-
-        <requestFocus />
-    </EditText>
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,27 +28,13 @@
         android:ems="10"
         android:inputType="text" />
 
-    <TextView
+   <CheckBox
+        android:id="@+id/ckbFinalizarTarefa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/lblDataFinalizacao" />
+        android:text="@string/ckbFinalizarTarefa" />
 
-    <EditText
-        android:id="@+id/txtDataFinalizacao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:digits="0123456789"
-        android:ems="10"
-        android:inputType="number" />
-
-    <CheckBox
-        android:id="@+id/ckbNotificar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ckbNotificar" />
-
-    <LinearLayout
+   <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -78,5 +54,6 @@
             android:layout_marginTop="20dp"
             android:text="@string/btnCancelar" />
     </LinearLayout>
+   
 
 </LinearLayout>

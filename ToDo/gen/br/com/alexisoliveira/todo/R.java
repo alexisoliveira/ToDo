@@ -26,17 +26,19 @@ public final class R {
     }
     public static final class id {
         public static final int LinearLayout1=0x7f080000;
-        public static final int action_settings=0x7f080011;
-        public static final int btnAdicionarTarefa=0x7f08000b;
+        public static final int action_settings=0x7f080013;
+        public static final int btnAdicionarTarefa=0x7f08000d;
         public static final int btnCancelar=0x7f080006;
-        public static final int btnLogin=0x7f08000c;
+        public static final int btnLogin=0x7f08000e;
         public static final int btnOk=0x7f080005;
+        public static final int ckbFinalizarTarefa=0x7f08000b;
         public static final int ckbNotificar=0x7f080004;
-        public static final int id_tarefa=0x7f08000f;
-        public static final int lblUsuarioNaoCadastrado=0x7f08000d;
-        public static final int lw_tarefa=0x7f08000a;
-        public static final int nm_tarefa=0x7f080010;
-        public static final int progressBar=0x7f08000e;
+        public static final int id_tarefa=0x7f080011;
+        public static final int lblTarefa=0x7f08000a;
+        public static final int lblUsuarioNaoCadastrado=0x7f08000f;
+        public static final int lw_tarefa=0x7f08000c;
+        public static final int nm_tarefa=0x7f080012;
+        public static final int progressBar=0x7f080010;
         public static final int txtDataFinalizacao=0x7f080003;
         public static final int txtEmail=0x7f080007;
         public static final int txtNome=0x7f080001;
@@ -47,16 +49,18 @@ public final class R {
     public static final class layout {
         public static final int activity_cadastrar_tarefa=0x7f030000;
         public static final int activity_cadastrar_usuario=0x7f030001;
-        public static final int activity_lista_tarefas=0x7f030002;
-        public static final int activity_principal=0x7f030003;
-        public static final int list_item_tarefa=0x7f030004;
+        public static final int activity_finalizar_tarefa=0x7f030002;
+        public static final int activity_lista_tarefas=0x7f030003;
+        public static final int activity_principal=0x7f030004;
+        public static final int list_item_tarefa=0x7f030005;
     }
     public static final class menu {
         public static final int activity_cadastrar_tarefa=0x7f070000;
         public static final int activity_cadastrar_usuario=0x7f070001;
-        public static final int activity_lista_tarefas=0x7f070002;
-        public static final int activity_principal=0x7f070003;
-        public static final int lista_tarefa=0x7f070004;
+        public static final int activity_finalizar_tarefa=0x7f070002;
+        public static final int activity_lista_tarefas=0x7f070003;
+        public static final int activity_principal=0x7f070004;
+        public static final int lista_tarefa=0x7f070005;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -67,9 +71,10 @@ public final class R {
          */
         public static final int btnLogin=0x7f050009;
         public static final int btnOk=0x7f05000a;
+        public static final int ckbFinalizarTarefa=0x7f050012;
         /**  Checkbox 
          */
-        public static final int ckbNotificar=0x7f050010;
+        public static final int ckbNotificar=0x7f050011;
         public static final int lblDataFinalizacao=0x7f050008;
         public static final int lblEmail=0x7f050005;
         public static final int lblNome=0x7f050006;
@@ -79,11 +84,12 @@ public final class R {
          */
         public static final int lblTelefone=0x7f050002;
         public static final int lblUsuarioNaoCadastrado=0x7f050004;
-        public static final int title_activity_activity_cadastrar_tarefa=0x7f05000f;
-        public static final int title_activity_activity_lista_tarefas=0x7f05000e;
+        public static final int title_activity_activity_finalizar_tarefa=0x7f050010;
+        public static final int title_activity_cadastrar_tarefa=0x7f05000f;
         /**  Titulo activity 
          */
         public static final int title_activity_cadastrar_usuario=0x7f05000d;
+        public static final int title_activity_lista_tarefas=0x7f05000e;
     }
     public static final class style {
         /** 

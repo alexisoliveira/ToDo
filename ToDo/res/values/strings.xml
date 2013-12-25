@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ToDo by Alexis</string>
+    <string name="app_name">ToDo</string>
     <string name="action_settings">Settings</string>
 
     <!-- Label -->
@@ -20,11 +20,13 @@
     <string name="btnAdicionarTarefa">+</string>
 
     <!-- Titulo activity -->
-    <string name="title_activity_cadastrar_usuario">Cadastrar Usuário</string>
-    <string name="title_activity_activity_lista_tarefas">To Do</string>
-    <string name="title_activity_activity_cadastrar_tarefa">ActivityCadastrarTarefa</string>
-    
+    <string name="title_activity_cadastrar_usuario">ToDo - Cadastrar Usuário</string>
+    <string name="title_activity_lista_tarefas">ToDo - Tarefas</string>
+    <string name="title_activity_cadastrar_tarefa">ToDo - Cadastrar Tarefa</string>
+    <string name="title_activity_activity_finalizar_tarefa">ToDo - Editar Tarefa</string>
+
     <!-- Checkbox -->
     <string name="ckbNotificar">Notificar?</string>
+    <string name="ckbFinalizarTarefa">Finalizar?</string>
 
 </resources>

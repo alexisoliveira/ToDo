@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,14 +20,17 @@ public class ActivityListaTarefas extends Activity implements OnClickListener,
 		OnItemClickListener {
 
 	private ListView listViewCategoria;
+	private ServiceTarefa datasource;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lista_tarefas);
 
+		datasource = new ServiceTarefa(this);
+		datasource.open();
+
 		listViewCategoria = (ListView) findViewById(R.id.lw_tarefa);
-		// listViewCategoria.setOnItemClickListener(this);
 
 		((Button) findViewById(R.id.btnAdicionarTarefa))
 				.setOnClickListener(this);
@@ -41,17 +43,6 @@ public class ActivityListaTarefas extends Activity implements OnClickListener,
 		getMenuInflater().inflate(R.menu.lista_tarefa, menu);
 
 		return true;
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		List<Tarefa> tarefas = ServiceTarefa.getInstance().findAll();
-
-		AdapterTarefa adapter = new AdapterTarefa(this, tarefas);
-
-		listViewCategoria.setAdapter(adapter);
 	}
 
 	@Override
@@ -69,9 +60,30 @@ public class ActivityListaTarefas extends Activity implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Tarefa t = (Tarefa)parent.getItemAtPosition(position);
-		String keyword = t.getNome();
-		Log.v("value ", "result is " + keyword);
+		Tarefa t = (Tarefa) parent.getItemAtPosition(position);
+		startFinalizarTarefaActivity(t);
+	}
 
+	@Override
+	protected void onResume() {
+		datasource.open();
+		List<Tarefa> tarefas = datasource.getAllTarefas();
+		AdapterTarefa adapter = new AdapterTarefa(this, tarefas);
+		listViewCategoria.setAdapter(adapter);
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		datasource.close();
+		super.onPause();
+	}
+
+	private void startFinalizarTarefaActivity(Tarefa t) {
+		Intent intent = new Intent(this, ActivityFinalizarTarefa.class);
+		Bundle params = new Bundle();
+		params.putSerializable("tarefa", t);
+		intent.putExtras(params);
+		startActivity(intent);
 	}
 }

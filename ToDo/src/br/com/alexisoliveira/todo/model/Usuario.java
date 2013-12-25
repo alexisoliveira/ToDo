@@ -1,27 +1,31 @@
 package br.com.alexisoliveira.todo.model;
 
-public class Usuario {
+import java.io.Serializable;
 
-	int id;
+public class Usuario implements Serializable{
+
+	private static final long serialVersionUID = 5807287653157808570L;
+	long id;
 	String email;
 	String telefone;
-	boolean notificar;
 	String senha;
 
-	public Usuario(int id, String email, String telefone, boolean notificar,
-			String senha) {
+	public Usuario(int id, String email, String telefone, String senha) {
 		this.id = id;
 		this.email = email;
 		this.telefone = telefone;
-		this.notificar = notificar;
 		this.senha = senha;
 	}
 
-	public int getId() {
+	public Usuario() {
+
+	}
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -39,14 +43,6 @@ public class Usuario {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
-	}
-
-	public boolean isNotificar() {
-		return notificar;
-	}
-
-	public void setNotificar(boolean notificar) {
-		this.notificar = notificar;
 	}
 
 	public String getSenha() {

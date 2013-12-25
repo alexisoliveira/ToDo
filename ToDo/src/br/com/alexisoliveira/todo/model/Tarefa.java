@@ -1,25 +1,33 @@
 package br.com.alexisoliveira.todo.model;
 
-import java.util.Date;
+import java.io.Serializable;
 
 
-public class Tarefa {
 
-	private int id;
+public class Tarefa implements Serializable {
+
+	private static final long serialVersionUID = -5233171294883715611L;
+	private long id;
 	private String nome;
 	private String observacao;
-	private Date dataFinalizacao;
+	private String dataFinalizacao;
 	private boolean notificar;
+	private boolean status;
+	private long id_usuario;
 
-	public Tarefa(int id, String nome, String observacao, Date dataFinalizacao, boolean notificar) {
+	public Tarefa(){
+	}
+	
+	public Tarefa(int id, String nome, String observacao, String dataFinalizacao, boolean notificar, boolean status) {
 		this.id = id;
 		this.nome = nome;
 		this.observacao = observacao;
 		this.dataFinalizacao = dataFinalizacao;
 		this.notificar = notificar;
+		this.status = status;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -35,11 +43,11 @@ public class Tarefa {
 		this.observacao = observacao;
 	}
 
-	public Date getDataFinalizacao() {
+	public String getDataFinalizacao() {
 		return dataFinalizacao;
 	}
 
-	public void setDataFinalizacao(Date dataFinalizacao) {
+	public void setDataFinalizacao(String dataFinalizacao) {
 		this.dataFinalizacao = dataFinalizacao;
 	}
 
@@ -51,11 +59,29 @@ public class Tarefa {
 		this.notificar = notificar;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public long getId_usuario() {
+		return id_usuario;
+	}
+
+	public void setId_usuario(long id_usuario) {
+		this.id_usuario = id_usuario;
+	}
+	
+	
 }
