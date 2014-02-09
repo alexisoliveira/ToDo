@@ -52,7 +52,7 @@ public class ActivityPrincipal extends Activity implements OnClickListener {
 					.getText().toString();
 			String senha = ((EditText) findViewById(R.id.txtSenha)).getText()
 					.toString();
-			if (datasource.efetuarLogin(telefone, senha)) {
+			if (datasource.efetuarLoginWS(telefone, senha)) {
 
 				startListaTarefaActivity();
 

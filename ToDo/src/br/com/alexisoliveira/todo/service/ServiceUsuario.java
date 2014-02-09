@@ -1,15 +1,33 @@
 package br.com.alexisoliveira.todo.service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import br.com.alexisoliveira.todo.datasource.DataSource;
 import br.com.alexisoliveira.todo.model.Usuario;
+import br.com.alexisoliveira.todo.util.Constant;
 import br.com.alexisoliveira.todo.util.UsuarioLogado;
 
 public class ServiceUsuario {
@@ -17,9 +35,9 @@ public class ServiceUsuario {
 	// Database fields
 	private SQLiteDatabase database;
 	private DataSource dbHelper;
-	private String[] allColumns = { DataSource.COLUMN_ID_USUARIO,
-			DataSource.COLUMN_EMAIL, DataSource.COLUMN_SENHA,
-			DataSource.COLUMN_TELEFONE };
+	private String[] allColumns = { Constant.COLUMN_ID_USUARIO,
+			Constant.COLUMN_EMAIL, Constant.COLUMN_SENHA,
+			Constant.COLUMN_TELEFONE };
 
 	public ServiceUsuario(Context context) {
 		dbHelper = new DataSource(context);
@@ -35,14 +53,14 @@ public class ServiceUsuario {
 
 	public Usuario createUsuario(Usuario usuario) {
 		ContentValues values = new ContentValues();
-		values.put(DataSource.COLUMN_EMAIL, usuario.getEmail());
-		values.put(DataSource.COLUMN_SENHA, usuario.getSenha());
-		values.put(DataSource.COLUMN_TELEFONE, usuario.getTelefone());
+		values.put(Constant.COLUMN_EMAIL, usuario.getEmail());
+		values.put(Constant.COLUMN_SENHA, usuario.getSenha());
+		values.put(Constant.COLUMN_TELEFONE, usuario.getTelefone());
 
-		long insertId = database.insert(DataSource.TABLE_USUARIO, null, values);
+		long insertId = database.insert(Constant.TABLE_USUARIO, null, values);
 
-		Cursor cursor = database.query(DataSource.TABLE_USUARIO, allColumns,
-				DataSource.COLUMN_ID_USUARIO + " = " + insertId, null, null,
+		Cursor cursor = database.query(Constant.TABLE_USUARIO, allColumns,
+				Constant.COLUMN_ID_USUARIO + " = " + insertId, null, null,
 				null, null);
 
 		cursor.moveToFirst();
@@ -54,14 +72,14 @@ public class ServiceUsuario {
 	public void deleteUsuario(Usuario usuario) {
 		long id = usuario.getId();
 		System.out.println("Usuario deletado com o ID: " + id);
-		database.delete(DataSource.TABLE_USUARIO, DataSource.COLUMN_ID_USUARIO
+		database.delete(Constant.TABLE_USUARIO, Constant.COLUMN_ID_USUARIO
 				+ " = " + id, null);
 	}
 
 	public List<Usuario> getAllUsuario() {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
-		Cursor cursor = database.query(DataSource.TABLE_USUARIO, allColumns,
+		Cursor cursor = database.query(Constant.TABLE_USUARIO, allColumns,
 				null, null, null, null, null);
 
 		cursor.moveToFirst();
@@ -90,9 +108,9 @@ public class ServiceUsuario {
 		String[] args = new String[1];
 		args[0] = String.valueOf(telefone);
 
-		String sql = " select " + DataSource.COLUMN_ID_USUARIO + " from "
-				+ DataSource.TABLE_USUARIO + " where "
-				+ DataSource.COLUMN_TELEFONE + " = ?";
+		String sql = " select " + Constant.COLUMN_ID_USUARIO + " from "
+				+ Constant.TABLE_USUARIO + " where " + Constant.COLUMN_TELEFONE
+				+ " = ?";
 
 		Cursor cursor = database.rawQuery(sql, args);
 
@@ -114,10 +132,9 @@ public class ServiceUsuario {
 		args[0] = String.valueOf(telefone);
 		args[1] = String.valueOf(senha);
 
-		String sql = " select " + DataSource.COLUMN_ID_USUARIO + " from "
-				+ DataSource.TABLE_USUARIO + " where "
-				+ DataSource.COLUMN_TELEFONE + " = ? and "
-				+ DataSource.COLUMN_SENHA + " = ?";
+		String sql = " select " + Constant.COLUMN_ID_USUARIO + " from "
+				+ Constant.TABLE_USUARIO + " where " + Constant.COLUMN_TELEFONE
+				+ " = ? and " + Constant.COLUMN_SENHA + " = ?";
 
 		Cursor cursor = database.rawQuery(sql, args);
 
@@ -131,5 +148,89 @@ public class ServiceUsuario {
 		cursor.close();
 
 		return result;
+	}
+
+	public boolean efetuarLoginWS(String telefone, String senha) {
+		String strURLGET = Constant.SERVICE_URI
+				+ Constant.SERVICE_EFETUAR_LOGIN + telefone + ";" + senha;
+		HttpGet request = new HttpGet(strURLGET);
+
+		HttpResponse response = null;
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		try {
+			response = httpClient.execute(request);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		HttpEntity responseEntity = response.getEntity();
+		char[] buffer = new char[(int) responseEntity.getContentLength()];
+
+		try {
+			InputStream stream = responseEntity.getContent();
+			InputStreamReader reader = new InputStreamReader(stream);
+			reader.read(buffer);
+			stream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Log.i("Recebendo:", new String(buffer));
+		String teste = new String(buffer);
+		JSONObject json = new JSONObject();
+		boolean loginOK = false;
+		try {
+			json = new JSONObject(teste);
+			loginOK = json.getBoolean("EfetuarLoginResult");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return loginOK;
+	}
+
+	public boolean CadastrarUsuarioWS() {
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(Constant.SERVICE_URI
+				+ Constant.SERVICE_CADASTRAR_USUARIO);
+
+		try {
+
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs
+					.add(new BasicNameValuePair("nome", "Diego Ampessan"));
+			nameValuePairs.add(new BasicNameValuePair("email",
+					"ampessann@gmail.com"));
+			nameValuePairs.add(new BasicNameValuePair("idade", "21"));
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+			Log.i("Enviando:", nameValuePairs.toString());
+
+			// Execute HTTP Post Request
+			HttpResponse response = httpclient.execute(httppost);
+
+			HttpEntity responseEntity = response.getEntity();
+			char[] buffer = new char[(int) responseEntity.getContentLength()];
+
+			try {
+				InputStream stream = responseEntity.getContent();
+				InputStreamReader reader = new InputStreamReader(stream);
+
+				reader.read(buffer);
+				stream.close();
+				reader.close();
+
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+
+			String teste = new String(buffer);
+			return true;
+		} catch (ClientProtocolException e) {
+		} catch (IOException e) {
+		}
+		return false;
 	}
 }
