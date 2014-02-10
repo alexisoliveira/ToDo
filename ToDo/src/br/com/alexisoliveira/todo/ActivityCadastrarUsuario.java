@@ -49,8 +49,9 @@ public class ActivityCadastrarUsuario extends Activity implements
 
 			if (Validacao(usuario)) {
 				datasource.createUsuario(usuario);
+				datasource.CadastrarUsuarioWS(usuario);
 
-				Intent intent = new Intent(ActivityCadastrarUsuario.this,
+ 				Intent intent = new Intent(ActivityCadastrarUsuario.this,
 						ActivityPrincipal.class);
 				intent.putExtra("telefone", telefone);
 				setResult(CodeActivities.ACTVITY_CADASTRAR_USUARIO, intent);

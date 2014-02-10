@@ -8,16 +8,17 @@ import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -56,6 +57,8 @@ public class ServiceUsuario {
 		values.put(Constant.COLUMN_EMAIL, usuario.getEmail());
 		values.put(Constant.COLUMN_SENHA, usuario.getSenha());
 		values.put(Constant.COLUMN_TELEFONE, usuario.getTelefone());
+		values.put(Constant.COLUMN_FL_OPERACAO, Constant.OPERACAO_INCLUIR);
+		values.put(Constant.COLUMN_FL_SINCRONIZADO, false);
 
 		long insertId = database.insert(Constant.TABLE_USUARIO, null, values);
 
@@ -132,9 +135,11 @@ public class ServiceUsuario {
 		args[0] = String.valueOf(telefone);
 		args[1] = String.valueOf(senha);
 
-		String sql = " select " + Constant.COLUMN_ID_USUARIO + " from "
-				+ Constant.TABLE_USUARIO + " where " + Constant.COLUMN_TELEFONE
-				+ " = ? and " + Constant.COLUMN_SENHA + " = ?";
+		String sql = " select " + Constant.COLUMN_ID_USUARIO + ", "
+				+ Constant.COLUMN_SENHA + ", " + Constant.COLUMN_TELEFONE
+				+ " from " + Constant.TABLE_USUARIO + " where "
+				+ Constant.COLUMN_TELEFONE + " = ? and "
+				+ Constant.COLUMN_SENHA + " = ?";
 
 		Cursor cursor = database.rawQuery(sql, args);
 
@@ -142,6 +147,8 @@ public class ServiceUsuario {
 		while (!cursor.isAfterLast()) {
 			result = true;
 			UsuarioLogado.setId_usuario(cursor.getLong(0));
+			UsuarioLogado.setSenha(cursor.getString(1));
+			UsuarioLogado.setTelefone(cursor.getString(2));
 			break;
 		}
 		// make sure to close the cursor
@@ -190,25 +197,38 @@ public class ServiceUsuario {
 		return loginOK;
 	}
 
-	public boolean CadastrarUsuarioWS() {
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(Constant.SERVICE_URI
-				+ Constant.SERVICE_CADASTRAR_USUARIO);
-
+	public boolean CadastrarUsuarioWS(Usuario u) {
 		try {
+			
+			HttpPost request = new HttpPost(Constant.SERVICE_URI+Constant.SERVICE_CADASTRAR_USUARIO);
+			request.setHeader("Accept", "application/json");
+			request.setHeader("Content-type", "application/json");
 
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			nameValuePairs
-					.add(new BasicNameValuePair("nome", "Diego Ampessan"));
-			nameValuePairs.add(new BasicNameValuePair("email",
-					"ampessann@gmail.com"));
-			nameValuePairs.add(new BasicNameValuePair("idade", "21"));
-			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			// Build JSON string
+			JSONStringer userJson = new JSONStringer()
+			.object().key("usuario").object()
+				.key("IdUsuario").value(0)
+				.key("Email").value(u.getEmail())
+				.key("Telefone").value(u.getTelefone())
+				.key("Senha").value(u.getSenha())
+			.endObject().endObject();
 
-			Log.i("Enviando:", nameValuePairs.toString());
+			StringEntity entity = new StringEntity(userJson.toString(),"UTF-8");                                                
+			entity.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+			entity.setContentType("application/json");
+
+
+			request.setEntity(entity);
+			Log.i("Enviando:", userJson.toString());
+			// Send request to WCF service
+			DefaultHttpClient httpClient = new DefaultHttpClient();             
+			HttpResponse response = httpClient.execute(request);
+
+			
+
+			
 
 			// Execute HTTP Post Request
-			HttpResponse response = httpclient.execute(httppost);
 
 			HttpEntity responseEntity = response.getEntity();
 			char[] buffer = new char[(int) responseEntity.getContentLength()];
@@ -228,9 +248,42 @@ public class ServiceUsuario {
 
 			String teste = new String(buffer);
 			return true;
-		} catch (ClientProtocolException e) {
-		} catch (IOException e) {
+		} catch (Exception e) {
+			return false;
 		}
-		return false;
+		/*
+		 * HttpClient httpclient = new DefaultHttpClient(); HttpPost httppost =
+		 * new HttpPost(Constant.SERVICE_URI +
+		 * Constant.SERVICE_CADASTRAR_USUARIO);
+		 * 
+		 * try {
+		 * 
+		 * List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		 * nameValuePairs.add(new BasicNameValuePair("nrTelefone",
+		 * u.getTelefone())); nameValuePairs.add(new
+		 * BasicNameValuePair("dsSenha",u.getSenha())); nameValuePairs.add(new
+		 * BasicNameValuePair("dsEmail", u.getEmail())); httppost.setEntity(new
+		 * UrlEncodedFormEntity(nameValuePairs));
+		 * 
+		 * Log.i("Enviando:", nameValuePairs.toString());
+		 * 
+		 * // Execute HTTP Post Request HttpResponse response =
+		 * httpclient.execute(httppost);
+		 * 
+		 * HttpEntity responseEntity = response.getEntity(); char[] buffer = new
+		 * char[(int) responseEntity.getContentLength()];
+		 * 
+		 * try { InputStream stream = responseEntity.getContent();
+		 * InputStreamReader reader = new InputStreamReader(stream);
+		 * 
+		 * reader.read(buffer); stream.close(); reader.close();
+		 * 
+		 * } catch (IOException e) {
+		 * 
+		 * e.printStackTrace(); }
+		 * 
+		 * String teste = new String(buffer); return true; } catch (Exception e)
+		 * { return false; }
+		 */
 	}
 }

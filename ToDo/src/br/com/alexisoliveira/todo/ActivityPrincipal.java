@@ -52,12 +52,16 @@ public class ActivityPrincipal extends Activity implements OnClickListener {
 					.getText().toString();
 			String senha = ((EditText) findViewById(R.id.txtSenha)).getText()
 					.toString();
-			if (datasource.efetuarLoginWS(telefone, senha)) {
+			if (datasource.efetuarLogin(telefone, senha)) {
+				if (datasource.efetuarLoginWS(telefone, senha)) {
 
 				startListaTarefaActivity();
 
 				((ProgressBar) findViewById(R.id.progressBar))
 						.setVisibility(View.VISIBLE);
+				}else{
+					//veficar se usuario eh cadastrado...caso nao cadastra-lo
+				}
 			} else {
 				String msg = "Usuário e/ou senha inválidos.";
 				Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);

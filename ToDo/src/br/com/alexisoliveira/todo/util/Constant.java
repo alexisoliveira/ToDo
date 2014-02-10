@@ -4,13 +4,13 @@ public class Constant {
 	public static final String PREF_FILE = "TodoByAlexis";
 	
 	/* ************************** OPERACAO ************************** */
-	public static final String INCLUIR = "I";
-	public static final String EXCLUIR = "E";
-	public static final String ALTERAR = "A";
+	public static final String OPERACAO_INCLUIR = "I";
+	public static final String OPERACAO_EXCLUIR = "E";
+	public static final String OPERACAO_ALTERAR = "A";
 	
 	/* ************************** DATABASE ************************** */
 	public static final String DATABASE_NAME = "todo_alexis.db";
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 2;
 		
 	/* ************************** TABELAS ************************** */
 	public static final String TABLE_USUARIO = "usuario";
@@ -33,10 +33,10 @@ public class Constant {
 	/* ************************** SERVICE ************************** */
 	public final static String SERVICE_URI = "http://192.168.10.251/todo/ToDo.svc/";
 	public final static String SERVICE_EFETUAR_LOGIN = "efetuarlogin/";
-	public final static String SERVICE_GET_TAREFA = "gettarefa/";
-	public final static String SERVICE_VERIFICAR_SESSAO = "verificarsessao/";
-	public final static String SERVICE_SINCRONIZAR_TAREFA = "sincronizartarefa/";
-	public final static String SERVICE_CADASTRAR_USUARIO = "cadastrarusuario/";
+	public final static String SERVICE_GET_TAREFA = "gettarefa";
+	public final static String SERVICE_VERIFICAR_SESSAO = "verificarsessao";
+	public final static String SERVICE_SINCRONIZAR_TAREFA = "sincronizartarefa";
+	public final static String SERVICE_CADASTRAR_USUARIO = "cadastrarusuario";
 	
 	
 }
