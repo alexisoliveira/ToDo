@@ -10,7 +10,7 @@ public class Constant {
 	
 	/* ************************** DATABASE ************************** */
 	public static final String DATABASE_NAME = "todo_alexis.db";
-	public static final int DATABASE_VERSION = 2;
+	public static final int DATABASE_VERSION = 10;
 		
 	/* ************************** TABELAS ************************** */
 	public static final String TABLE_USUARIO = "usuario";
@@ -32,11 +32,13 @@ public class Constant {
 	
 	/* ************************** SERVICE ************************** */
 	public final static String SERVICE_URI = "http://192.168.10.251/todo/ToDo.svc/";
-	public final static String SERVICE_EFETUAR_LOGIN = "efetuarlogin/";
+	public final static String SERVICE_EFETUAR_LOGIN = "efetuarlogin";
 	public final static String SERVICE_GET_TAREFA = "gettarefa";
 	public final static String SERVICE_VERIFICAR_SESSAO = "verificarsessao";
 	public final static String SERVICE_SINCRONIZAR_TAREFA = "sincronizartarefa";
-	public final static String SERVICE_CADASTRAR_USUARIO = "cadastrarusuario";
+	public final static String SERVICE_CADASTRAR_ATUALIZAR_USUARIO = "cadastraratualizarusuario";
 	
-	
+	public final static String SERVICE_RETORNO_CADASTRAR_ATUALIZAR_USUARIO = "CadastrarAtualizarUsuarioResult";
+	public final static String SERVICE_RETORNO_GET_TAREFA = "GetTarefasResult";
+	public final static String SERVICE_RETORNO_EFETUAR_LOGIN = "EfetuarLoginResult";	
 }

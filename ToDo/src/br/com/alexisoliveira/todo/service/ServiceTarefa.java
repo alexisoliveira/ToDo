@@ -21,7 +21,8 @@ public class ServiceTarefa {
 	private String[] allColumns = { Constant.COLUMN_ID_TAREFA,
 			Constant.COLUMN_DATA_FINALIZACAO, Constant.COLUMN_NOME,
 			Constant.COLUMN_NOTIFICAR, Constant.COLUMN_OBSERVACAO,
-			Constant.COLUMN_STATUS, Constant.COLUMN_ID_USUARIO };
+			Constant.COLUMN_STATUS, Constant.COLUMN_ID_USUARIO,
+			Constant.COLUMN_FL_OPERACAO, Constant.COLUMN_FL_SINCRONIZADO };
 
 	public ServiceTarefa(Context context) {
 		dbHelper = new DataSource(context);
@@ -40,17 +41,19 @@ public class ServiceTarefa {
 		values.put(Constant.COLUMN_DATA_FINALIZACAO,
 				tarefa.getDataFinalizacao());
 		values.put(Constant.COLUMN_NOME, tarefa.getNome());
-		values.put(Constant.COLUMN_NOTIFICAR,
-				tarefa.isNotificar() == true ? 1 : 0);
+		values.put(Constant.COLUMN_NOTIFICAR, tarefa.isNotificar() == true ? 1
+				: 0);
 		values.put(Constant.COLUMN_OBSERVACAO, tarefa.getObservacao());
 		values.put(Constant.COLUMN_STATUS, tarefa.isStatus() == true ? 1 : 0);
 		values.put(Constant.COLUMN_ID_USUARIO, UsuarioLogado.getId_usuario());
+		values.put(Constant.COLUMN_FL_OPERACAO, Constant.OPERACAO_INCLUIR);
+		values.put(Constant.COLUMN_FL_SINCRONIZADO, false);
 
 		long insertId = database.insert(Constant.TABLE_TAREFA, null, values);
 
 		Cursor cursor = database.query(Constant.TABLE_TAREFA, allColumns,
-				Constant.COLUMN_ID_TAREFA + " = " + insertId, null, null,
-				null, null);
+				Constant.COLUMN_ID_TAREFA + " = " + insertId, null, null, null,
+				null);
 
 		cursor.moveToFirst();
 		Tarefa newTarefa = cursorToTarefa(cursor);
@@ -63,8 +66,8 @@ public class ServiceTarefa {
 		values.put(Constant.COLUMN_DATA_FINALIZACAO,
 				tarefa.getDataFinalizacao());
 		values.put(Constant.COLUMN_NOME, tarefa.getNome());
-		values.put(Constant.COLUMN_NOTIFICAR,
-				tarefa.isNotificar() == true ? 1 : 0);
+		values.put(Constant.COLUMN_NOTIFICAR, tarefa.isNotificar() == true ? 1
+				: 0);
 		values.put(Constant.COLUMN_OBSERVACAO, tarefa.getObservacao());
 		values.put(Constant.COLUMN_STATUS, tarefa.isStatus() == true ? 1 : 0);
 		values.put(Constant.COLUMN_ID_TAREFA, tarefa.getId());

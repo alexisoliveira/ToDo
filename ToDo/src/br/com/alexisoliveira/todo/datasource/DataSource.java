@@ -52,8 +52,9 @@ public class DataSource extends SQLiteOpenHelper {
 		Log.w(DataSource.class.getName(), "Atualizando base da versão "
 				+ oldVersion + " to " + newVersion
 				+ ", todos os dados serão perdidos.");
-		db.execSQL("DROP TABLE IF EXISTS " + Constant.TABLE_USUARIO);
 		db.execSQL("DROP TABLE IF EXISTS " + Constant.TABLE_TAREFA);
+		db.execSQL("DROP TABLE IF EXISTS " + Constant.TABLE_USUARIO);
+		
 		onCreate(db);
 	}
 

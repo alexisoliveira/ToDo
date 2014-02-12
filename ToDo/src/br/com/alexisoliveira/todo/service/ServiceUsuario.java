@@ -1,35 +1,29 @@
 package br.com.alexisoliveira.todo.service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
-import org.json.JSONException;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import br.com.alexisoliveira.todo.datasource.DataSource;
 import br.com.alexisoliveira.todo.model.Usuario;
 import br.com.alexisoliveira.todo.util.Constant;
 import br.com.alexisoliveira.todo.util.UsuarioLogado;
+
+import com.google.gson.Gson;
 
 public class ServiceUsuario {
 
@@ -38,7 +32,8 @@ public class ServiceUsuario {
 	private DataSource dbHelper;
 	private String[] allColumns = { Constant.COLUMN_ID_USUARIO,
 			Constant.COLUMN_EMAIL, Constant.COLUMN_SENHA,
-			Constant.COLUMN_TELEFONE };
+			Constant.COLUMN_TELEFONE, Constant.COLUMN_FL_OPERACAO,
+			Constant.COLUMN_FL_SINCRONIZADO };
 
 	public ServiceUsuario(Context context) {
 		dbHelper = new DataSource(context);
@@ -157,133 +152,59 @@ public class ServiceUsuario {
 		return result;
 	}
 
-	public boolean efetuarLoginWS(String telefone, String senha) {
-		String strURLGET = Constant.SERVICE_URI
-				+ Constant.SERVICE_EFETUAR_LOGIN + telefone + ";" + senha;
-		HttpGet request = new HttpGet(strURLGET);
-
-		HttpResponse response = null;
-		DefaultHttpClient httpClient = new DefaultHttpClient();
-		try {
-			response = httpClient.execute(request);
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		HttpEntity responseEntity = response.getEntity();
-		char[] buffer = new char[(int) responseEntity.getContentLength()];
-
-		try {
-			InputStream stream = responseEntity.getContent();
-			InputStreamReader reader = new InputStreamReader(stream);
-			reader.read(buffer);
-			stream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		Log.i("Recebendo:", new String(buffer));
-		String teste = new String(buffer);
-		JSONObject json = new JSONObject();
-		boolean loginOK = false;
-		try {
-			json = new JSONObject(teste);
-			loginOK = json.getBoolean("EfetuarLoginResult");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return loginOK;
+	public void AtualizarFlagSincronizacaoUsuario(Usuario usuario) {
+		long id = usuario.getId();
+		ContentValues values = new ContentValues();
+		values.put(Constant.COLUMN_FL_SINCRONIZADO, true);
+		System.out.println("Usuario com o ID atualizado: " + id);
+		database.update(Constant.TABLE_USUARIO, values,
+				Constant.COLUMN_ID_USUARIO + " = " + id, null);
 	}
 
-	public boolean CadastrarUsuarioWS(Usuario u) {
-		try {
-			
-			HttpPost request = new HttpPost(Constant.SERVICE_URI+Constant.SERVICE_CADASTRAR_USUARIO);
-			request.setHeader("Accept", "application/json");
-			request.setHeader("Content-type", "application/json");
+	/*** SERVICE ***/
+	public boolean efetuarLoginWS(Usuario usuario) throws Exception {
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(Constant.SERVICE_URI
+				+ Constant.SERVICE_EFETUAR_LOGIN);
 
-			// Build JSON string
-			JSONStringer userJson = new JSONStringer()
-			.object().key("usuario").object()
-				.key("IdUsuario").value(0)
-				.key("Email").value(u.getEmail())
-				.key("Telefone").value(u.getTelefone())
-				.key("Senha").value(u.getSenha())
-			.endObject().endObject();
+		Gson gson = new Gson();
+		String obj = gson.toJson(usuario);
 
-			StringEntity entity = new StringEntity(userJson.toString(),"UTF-8");                                                
-			entity.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-			entity.setContentType("application/json");
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+		nameValuePairs.add(new BasicNameValuePair("usuario", obj));
+		httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
+		// Execute HTTP Post Request
+		HttpResponse response = httpclient.execute(httppost);
+		JSONObject json = new JSONObject(EntityUtils.toString(response
+				.getEntity()));
+		boolean retorno = json
+				.getBoolean(Constant.SERVICE_RETORNO_EFETUAR_LOGIN);
+		return retorno;
 
-			request.setEntity(entity);
-			Log.i("Enviando:", userJson.toString());
-			// Send request to WCF service
-			DefaultHttpClient httpClient = new DefaultHttpClient();             
-			HttpResponse response = httpClient.execute(request);
-
-			
-
-			
-
-			// Execute HTTP Post Request
-
-			HttpEntity responseEntity = response.getEntity();
-			char[] buffer = new char[(int) responseEntity.getContentLength()];
-
-			try {
-				InputStream stream = responseEntity.getContent();
-				InputStreamReader reader = new InputStreamReader(stream);
-
-				reader.read(buffer);
-				stream.close();
-				reader.close();
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
-
-			String teste = new String(buffer);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-		/*
-		 * HttpClient httpclient = new DefaultHttpClient(); HttpPost httppost =
-		 * new HttpPost(Constant.SERVICE_URI +
-		 * Constant.SERVICE_CADASTRAR_USUARIO);
-		 * 
-		 * try {
-		 * 
-		 * List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		 * nameValuePairs.add(new BasicNameValuePair("nrTelefone",
-		 * u.getTelefone())); nameValuePairs.add(new
-		 * BasicNameValuePair("dsSenha",u.getSenha())); nameValuePairs.add(new
-		 * BasicNameValuePair("dsEmail", u.getEmail())); httppost.setEntity(new
-		 * UrlEncodedFormEntity(nameValuePairs));
-		 * 
-		 * Log.i("Enviando:", nameValuePairs.toString());
-		 * 
-		 * // Execute HTTP Post Request HttpResponse response =
-		 * httpclient.execute(httppost);
-		 * 
-		 * HttpEntity responseEntity = response.getEntity(); char[] buffer = new
-		 * char[(int) responseEntity.getContentLength()];
-		 * 
-		 * try { InputStream stream = responseEntity.getContent();
-		 * InputStreamReader reader = new InputStreamReader(stream);
-		 * 
-		 * reader.read(buffer); stream.close(); reader.close();
-		 * 
-		 * } catch (IOException e) {
-		 * 
-		 * e.printStackTrace(); }
-		 * 
-		 * String teste = new String(buffer); return true; } catch (Exception e)
-		 * { return false; }
-		 */
 	}
+
+	public boolean CadastrarAtualizarUsuarioWS(Usuario usuario)
+			throws Exception {
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(Constant.SERVICE_URI
+				+ Constant.SERVICE_CADASTRAR_ATUALIZAR_USUARIO);
+
+		Gson gson = new Gson();
+		String obj = gson.toJson(usuario);
+
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+		nameValuePairs.add(new BasicNameValuePair("usuario", obj));
+		httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+		// Execute HTTP Post Request
+		HttpResponse response = httpclient.execute(httppost);
+		JSONObject json = new JSONObject(EntityUtils.toString(response
+				.getEntity()));
+		boolean retorno = json
+				.getBoolean(Constant.SERVICE_RETORNO_CADASTRAR_ATUALIZAR_USUARIO);
+		return retorno;
+
+	}
+
 }

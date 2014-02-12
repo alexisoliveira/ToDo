@@ -48,10 +48,29 @@ public class ActivityCadastrarUsuario extends Activity implements
 			usuario.setTelefone(telefone);
 
 			if (Validacao(usuario)) {
-				datasource.createUsuario(usuario);
-				datasource.CadastrarUsuarioWS(usuario);
+				try {
+					usuario = datasource.createUsuario(usuario);
+				} catch (Exception ex) {
+					String msg = "Erro ao cadastrar usuário.";
+					Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
+					toast.setGravity(Gravity.CENTER_HORIZONTAL
+							| Gravity.CENTER_VERTICAL, 0, 0);
+					toast.show();
+					return;
+				}
+				try {
+					if (datasource.CadastrarAtualizarUsuarioWS(usuario)) {
+						datasource.AtualizarFlagSincronizacaoUsuario(usuario);
+					}
+				} catch (Exception ex) {
+					String msg = "Erro ao sincronizar com o servidor.";
+					Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
+					toast.setGravity(Gravity.CENTER_HORIZONTAL
+							| Gravity.CENTER_VERTICAL, 0, 0);
+					toast.show();
+				}
 
- 				Intent intent = new Intent(ActivityCadastrarUsuario.this,
+				Intent intent = new Intent(ActivityCadastrarUsuario.this,
 						ActivityPrincipal.class);
 				intent.putExtra("telefone", telefone);
 				setResult(CodeActivities.ACTVITY_CADASTRAR_USUARIO, intent);

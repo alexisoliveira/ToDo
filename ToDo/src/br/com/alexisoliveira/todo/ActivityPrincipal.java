@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import br.com.alexisoliveira.todo.model.Usuario;
 import br.com.alexisoliveira.todo.service.ServiceUsuario;
 import br.com.alexisoliveira.todo.util.CodeActivities;
 
@@ -53,15 +54,31 @@ public class ActivityPrincipal extends Activity implements OnClickListener {
 			String senha = ((EditText) findViewById(R.id.txtSenha)).getText()
 					.toString();
 			if (datasource.efetuarLogin(telefone, senha)) {
-				if (datasource.efetuarLoginWS(telefone, senha)) {
+				try {
+					Usuario usuario = new Usuario();
+					usuario.setTelefone(telefone);
+					usuario.setSenha(senha);
+
+					if (!datasource.efetuarLoginWS(usuario)) {
+						if (datasource.CadastrarAtualizarUsuarioWS(usuario)) {
+							datasource.AtualizarFlagSincronizacaoUsuario(usuario);
+							datasource.efetuarLoginWS(usuario);
+						}
+					}
+
+				} catch (Exception ex) {
+					String msg = "Erro ao sincronizar com o servidor.";
+					Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
+					toast.setGravity(Gravity.CENTER_HORIZONTAL
+							| Gravity.CENTER_VERTICAL, 0, 0);
+					toast.show();
+				}
 
 				startListaTarefaActivity();
 
 				((ProgressBar) findViewById(R.id.progressBar))
 						.setVisibility(View.VISIBLE);
-				}else{
-					//veficar se usuario eh cadastrado...caso nao cadastra-lo
-				}
+
 			} else {
 				String msg = "Usuário e/ou senha inválidos.";
 				Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);

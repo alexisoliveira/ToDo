@@ -1,5 +1,6 @@
 package br.com.alexisoliveira.todo.model;
 
+
 import java.io.Serializable;
 
 public class Usuario implements Serializable{
