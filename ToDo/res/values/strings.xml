@@ -28,5 +28,8 @@
     <!-- Checkbox -->
     <string name="ckbNotificar">Notificar?</string>
     <string name="ckbFinalizarTarefa">Finalizar?</string>
+    
+    <!-- descrição imagem -->
+    <string name="sinc">sinc</string>
 
 </resources>

@@ -32,7 +32,7 @@ public class ServiceUsuario {
 	private DataSource dbHelper;
 	private String[] allColumns = { Constant.COLUMN_ID_USUARIO,
 			Constant.COLUMN_EMAIL, Constant.COLUMN_SENHA,
-			Constant.COLUMN_TELEFONE, Constant.COLUMN_FL_OPERACAO,
+			Constant.COLUMN_TELEFONE,
 			Constant.COLUMN_FL_SINCRONIZADO };
 
 	public ServiceUsuario(Context context) {
@@ -52,8 +52,7 @@ public class ServiceUsuario {
 		values.put(Constant.COLUMN_EMAIL, usuario.getEmail());
 		values.put(Constant.COLUMN_SENHA, usuario.getSenha());
 		values.put(Constant.COLUMN_TELEFONE, usuario.getTelefone());
-		values.put(Constant.COLUMN_FL_OPERACAO, Constant.OPERACAO_INCLUIR);
-		values.put(Constant.COLUMN_FL_SINCRONIZADO, false);
+		values.put(Constant.COLUMN_FL_SINCRONIZADO, 0);
 
 		long insertId = database.insert(Constant.TABLE_USUARIO, null, values);
 
@@ -155,7 +154,7 @@ public class ServiceUsuario {
 	public void AtualizarFlagSincronizacaoUsuario(Usuario usuario) {
 		long id = usuario.getId();
 		ContentValues values = new ContentValues();
-		values.put(Constant.COLUMN_FL_SINCRONIZADO, true);
+		values.put(Constant.COLUMN_FL_SINCRONIZADO, 1);
 		System.out.println("Usuario com o ID atualizado: " + id);
 		database.update(Constant.TABLE_USUARIO, values,
 				Constant.COLUMN_ID_USUARIO + " = " + id, null);

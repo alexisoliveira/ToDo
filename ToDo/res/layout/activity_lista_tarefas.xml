@@ -18,11 +18,21 @@
     <Button
         android:id="@+id/btnAdicionarTarefa"
         android:layout_width="70sp"
-        android:layout_height="wrap_content"
+        android:layout_height="50sp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="@string/btnAdicionarTarefa"
         android:textSize="25sp"
+        />
+
+    <ImageButton
+        android:id="@+id/btnSincronizarTarefa"
+        android:layout_width="70sp"
+        android:layout_height="50sp"
+        android:layout_alignLeft="@+id/lw_tarefa"
+        android:layout_alignTop="@+id/btnAdicionarTarefa"
+        android:src="@android:drawable/ic_menu_rotate"
+        android:contentDescription="@string/sinc"
         />
 
 </RelativeLayout>

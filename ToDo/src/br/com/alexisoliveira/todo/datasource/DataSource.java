@@ -16,8 +16,7 @@ public class DataSource extends SQLiteOpenHelper {
 					Constant.COLUMN_TELEFONE + " text not null, " +
 					Constant.COLUMN_EMAIL + " text not null, " +
 					Constant.COLUMN_SENHA + " text not null," +
-					Constant.COLUMN_FL_SINCRONIZADO + " bool not null," +
-					Constant.COLUMN_FL_OPERACAO + " bool not null" +
+					Constant.COLUMN_FL_SINCRONIZADO + " integer not null" +
 			");";
 
 	private static final String DATABASE_CREATE_TAREFA = 
@@ -30,8 +29,7 @@ public class DataSource extends SQLiteOpenHelper {
 					Constant.COLUMN_OBSERVACAO + " text not null, " +
 					Constant.COLUMN_STATUS + " integer not null, " +
 					Constant.COLUMN_ID_USUARIO + " integer not null, " +
-					Constant.COLUMN_FL_SINCRONIZADO + " bool not null," +
-					Constant.COLUMN_FL_OPERACAO + " bool not null," +
+					Constant.COLUMN_FL_SINCRONIZADO + " integer not null," +
 							"FOREIGN KEY (" + Constant.COLUMN_ID_USUARIO + ")" +
 									" REFERENCES " + Constant.TABLE_USUARIO+ " (" + Constant.COLUMN_ID_USUARIO + ")" +  
 							

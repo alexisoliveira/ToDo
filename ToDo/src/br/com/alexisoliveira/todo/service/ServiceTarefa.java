@@ -18,11 +18,15 @@ public class ServiceTarefa {
 	// Database fields
 	private SQLiteDatabase database;
 	private DataSource dbHelper;
-	private String[] allColumns = { Constant.COLUMN_ID_TAREFA,
-			Constant.COLUMN_DATA_FINALIZACAO, Constant.COLUMN_NOME,
-			Constant.COLUMN_NOTIFICAR, Constant.COLUMN_OBSERVACAO,
-			Constant.COLUMN_STATUS, Constant.COLUMN_ID_USUARIO,
-			Constant.COLUMN_FL_OPERACAO, Constant.COLUMN_FL_SINCRONIZADO };
+	private String[] allColumns = {
+			Constant.COLUMN_ID_TAREFA,
+			Constant.COLUMN_DATA_FINALIZACAO, 
+			Constant.COLUMN_NOME,
+			Constant.COLUMN_NOTIFICAR, 
+			Constant.COLUMN_OBSERVACAO,
+			Constant.COLUMN_STATUS, 
+			Constant.COLUMN_ID_USUARIO,
+			Constant.COLUMN_FL_SINCRONIZADO };
 
 	public ServiceTarefa(Context context) {
 		dbHelper = new DataSource(context);
@@ -41,13 +45,11 @@ public class ServiceTarefa {
 		values.put(Constant.COLUMN_DATA_FINALIZACAO,
 				tarefa.getDataFinalizacao());
 		values.put(Constant.COLUMN_NOME, tarefa.getNome());
-		values.put(Constant.COLUMN_NOTIFICAR, tarefa.isNotificar() == true ? 1
-				: 0);
+		values.put(Constant.COLUMN_NOTIFICAR, tarefa.isNotificar()? 1 : 0);
 		values.put(Constant.COLUMN_OBSERVACAO, tarefa.getObservacao());
-		values.put(Constant.COLUMN_STATUS, tarefa.isStatus() == true ? 1 : 0);
+		values.put(Constant.COLUMN_STATUS, tarefa.isStatus()? 1 : 0);
 		values.put(Constant.COLUMN_ID_USUARIO, UsuarioLogado.getId_usuario());
-		values.put(Constant.COLUMN_FL_OPERACAO, Constant.OPERACAO_INCLUIR);
-		values.put(Constant.COLUMN_FL_SINCRONIZADO, false);
+		values.put(Constant.COLUMN_FL_SINCRONIZADO, 0);
 
 		long insertId = database.insert(Constant.TABLE_TAREFA, null, values);
 
@@ -66,12 +68,12 @@ public class ServiceTarefa {
 		values.put(Constant.COLUMN_DATA_FINALIZACAO,
 				tarefa.getDataFinalizacao());
 		values.put(Constant.COLUMN_NOME, tarefa.getNome());
-		values.put(Constant.COLUMN_NOTIFICAR, tarefa.isNotificar() == true ? 1
-				: 0);
+		values.put(Constant.COLUMN_NOTIFICAR, tarefa.isNotificar());
 		values.put(Constant.COLUMN_OBSERVACAO, tarefa.getObservacao());
-		values.put(Constant.COLUMN_STATUS, tarefa.isStatus() == true ? 1 : 0);
+		values.put(Constant.COLUMN_STATUS, tarefa.isStatus());
 		values.put(Constant.COLUMN_ID_TAREFA, tarefa.getId());
 		values.put(Constant.COLUMN_ID_USUARIO, UsuarioLogado.getId_usuario());
+		values.put(Constant.COLUMN_FL_SINCRONIZADO, 0);
 
 		database.update(Constant.TABLE_TAREFA, values,
 				Constant.COLUMN_ID_TAREFA + " = " + tarefa.getId(), null);
@@ -110,11 +112,38 @@ public class ServiceTarefa {
 		tarefa.setId(cursor.getLong(0));
 		tarefa.setDataFinalizacao(cursor.getString(1));
 		tarefa.setNome(cursor.getString(2));
-		tarefa.setNotificar(cursor.getString(3) == "1" ? true : false);
+		tarefa.setNotificar(cursor.getString(3).equals("1") ? true : false);
 		tarefa.setObservacao(cursor.getString(4));
-		tarefa.setStatus(cursor.getString(5) == "1" ? true : false);
+		tarefa.setStatus(cursor.getString(5).equals("1") ? true : false);
 		tarefa.setId_usuario(cursor.getLong(6));
-
 		return tarefa;
+	}
+
+	public List<Tarefa> getAllTarefasNaoSincronizadas() {
+		List<Tarefa> tarefas = new ArrayList<Tarefa>();
+
+		Cursor cursor = database
+				.query(Constant.TABLE_TAREFA, allColumns,
+						Constant.COLUMN_FL_SINCRONIZADO + " = 0 and "
+								+ Constant.COLUMN_ID_USUARIO + " = "
+								+ UsuarioLogado.getId_usuario(), null, null,
+						null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Tarefa tarefa = cursorToTarefa(cursor);
+			tarefas.add(tarefa);
+			cursor.moveToNext();
+		}
+		// make sure to close the cursor
+		cursor.close();
+		return tarefas;
+	}
+	
+	public void AtualizarFlagSincronizacaoTarefa(Tarefa t) {
+		ContentValues values = new ContentValues();
+		values.put(Constant.COLUMN_FL_SINCRONIZADO, 1);
+		database.update(Constant.TABLE_TAREFA, values,
+				Constant.COLUMN_ID_TAREFA + " = " + t.getId(), null);
 	}
 }

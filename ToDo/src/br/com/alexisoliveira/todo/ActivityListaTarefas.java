@@ -11,9 +11,11 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import br.com.alexisoliveira.todo.adapter.AdapterTarefa;
 import br.com.alexisoliveira.todo.model.Tarefa;
+import br.com.alexisoliveira.todo.service.HttpPostTaskTarefa;
 import br.com.alexisoliveira.todo.service.ServiceTarefa;
 
 public class ActivityListaTarefas extends Activity implements OnClickListener,
@@ -34,6 +36,9 @@ public class ActivityListaTarefas extends Activity implements OnClickListener,
 
 		((Button) findViewById(R.id.btnAdicionarTarefa))
 				.setOnClickListener(this);
+		
+		((ImageButton) findViewById(R.id.btnSincronizarTarefa))
+		.setOnClickListener(this);
 
 		listViewCategoria.setOnItemClickListener(this);
 	}
@@ -49,6 +54,10 @@ public class ActivityListaTarefas extends Activity implements OnClickListener,
 	public void onClick(View v) {
 		if (v.getId() == R.id.btnAdicionarTarefa) {
 			startCadastrarTarefaActivity();
+		}else if(v.getId() == R.id.btnSincronizarTarefa)
+		{
+			HttpPostTaskTarefa httpTask = new HttpPostTaskTarefa(this); 
+			httpTask.execute();
 		}
 	}
 

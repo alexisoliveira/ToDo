@@ -3,14 +3,9 @@ package br.com.alexisoliveira.todo.util;
 public class Constant {
 	public static final String PREF_FILE = "TodoByAlexis";
 	
-	/* ************************** OPERACAO ************************** */
-	public static final String OPERACAO_INCLUIR = "I";
-	public static final String OPERACAO_EXCLUIR = "E";
-	public static final String OPERACAO_ALTERAR = "A";
-	
 	/* ************************** DATABASE ************************** */
 	public static final String DATABASE_NAME = "todo_alexis.db";
-	public static final int DATABASE_VERSION = 10;
+	public static final int DATABASE_VERSION = 5;
 		
 	/* ************************** TABELAS ************************** */
 	public static final String TABLE_USUARIO = "usuario";
@@ -22,7 +17,6 @@ public class Constant {
 	public static final String COLUMN_EMAIL = "email";
 	public static final String COLUMN_SENHA = "senha";
 	public static final String COLUMN_FL_SINCRONIZADO = "fl_sincronizado";
-	public static final String COLUMN_FL_OPERACAO = "fl_operacao";
 	public static final String COLUMN_ID_TAREFA = "id_tarefa";
 	public static final String COLUMN_DATA_FINALIZACAO = "data_finalizacao";
 	public static final String COLUMN_NOME = "nome";
@@ -35,10 +29,11 @@ public class Constant {
 	public final static String SERVICE_EFETUAR_LOGIN = "efetuarlogin";
 	public final static String SERVICE_GET_TAREFA = "gettarefa";
 	public final static String SERVICE_VERIFICAR_SESSAO = "verificarsessao";
-	public final static String SERVICE_SINCRONIZAR_TAREFA = "sincronizartarefa";
+	public final static String SERVICE_SINCRONIZAR_TAREFA = "sincronizar";
 	public final static String SERVICE_CADASTRAR_ATUALIZAR_USUARIO = "cadastraratualizarusuario";
 	
 	public final static String SERVICE_RETORNO_CADASTRAR_ATUALIZAR_USUARIO = "CadastrarAtualizarUsuarioResult";
 	public final static String SERVICE_RETORNO_GET_TAREFA = "GetTarefasResult";
-	public final static String SERVICE_RETORNO_EFETUAR_LOGIN = "EfetuarLoginResult";	
+	public final static String SERVICE_RETORNO_EFETUAR_LOGIN = "EfetuarLoginResult";
+	public final static String SERVICE_RETORNO_SINCRONIZAR = "SincronizarResult";
 }

@@ -2,6 +2,7 @@ package br.com.alexisoliveira.todo.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
  
 public class ValidatorEmail {
  

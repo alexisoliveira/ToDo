@@ -26,19 +26,20 @@ public final class R {
     }
     public static final class id {
         public static final int LinearLayout1=0x7f080000;
-        public static final int action_settings=0x7f080013;
+        public static final int action_settings=0x7f080014;
         public static final int btnAdicionarTarefa=0x7f08000d;
         public static final int btnCancelar=0x7f080006;
-        public static final int btnLogin=0x7f08000e;
+        public static final int btnLogin=0x7f08000f;
         public static final int btnOk=0x7f080005;
+        public static final int btnSincronizarTarefa=0x7f08000e;
         public static final int ckbFinalizarTarefa=0x7f08000b;
         public static final int ckbNotificar=0x7f080004;
-        public static final int id_tarefa=0x7f080011;
+        public static final int id_tarefa=0x7f080012;
         public static final int lblTarefa=0x7f08000a;
-        public static final int lblUsuarioNaoCadastrado=0x7f08000f;
+        public static final int lblUsuarioNaoCadastrado=0x7f080010;
         public static final int lw_tarefa=0x7f08000c;
-        public static final int nm_tarefa=0x7f080012;
-        public static final int progressBar=0x7f080010;
+        public static final int nm_tarefa=0x7f080013;
+        public static final int progressBar=0x7f080011;
         public static final int txtDataFinalizacao=0x7f080003;
         public static final int txtEmail=0x7f080007;
         public static final int txtNome=0x7f080001;
@@ -84,6 +85,9 @@ public final class R {
          */
         public static final int lblTelefone=0x7f050002;
         public static final int lblUsuarioNaoCadastrado=0x7f050004;
+        /**  descrição imagem 
+         */
+        public static final int sinc=0x7f050013;
         public static final int title_activity_activity_finalizar_tarefa=0x7f050010;
         public static final int title_activity_cadastrar_tarefa=0x7f05000f;
         /**  Titulo activity 
