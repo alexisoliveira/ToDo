@@ -5,7 +5,7 @@ public class Constant {
 	
 	/* ************************** DATABASE ************************** */
 	public static final String DATABASE_NAME = "todo_alexis.db";
-	public static final int DATABASE_VERSION = 5;
+	public static final int DATABASE_VERSION = 2;
 		
 	/* ************************** TABELAS ************************** */
 	public static final String TABLE_USUARIO = "usuario";

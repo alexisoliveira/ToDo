@@ -40,6 +40,13 @@
             android:name="br.com.alexisoliveira.todo.ActivityFinalizarTarefa"
             android:label="@string/title_activity_activity_finalizar_tarefa" >
         </activity>
+
+        <receiver android:name="br.com.alexisoliveira.todo.service.TarefaReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.DATE_CHANGED" >
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
