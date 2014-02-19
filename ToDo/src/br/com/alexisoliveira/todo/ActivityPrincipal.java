@@ -59,12 +59,12 @@ public class ActivityPrincipal extends Activity implements OnClickListener {
 					usuario.setTelefone(telefone);
 					usuario.setSenha(senha);
 
-					if (!datasource.efetuarLoginWS(usuario)) {
+					/*if (!datasource.efetuarLoginWS(usuario)) {
 						if (datasource.CadastrarAtualizarUsuarioWS(usuario)) {
 							datasource.AtualizarFlagSincronizacaoUsuario(usuario);
 							datasource.efetuarLoginWS(usuario);
 						}
-					}
+					}*/
 
 				} catch (Exception ex) {
 					String msg = "Erro ao sincronizar com o servidor.";

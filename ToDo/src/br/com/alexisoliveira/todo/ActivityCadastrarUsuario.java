@@ -58,7 +58,7 @@ public class ActivityCadastrarUsuario extends Activity implements
 					toast.show();
 					return;
 				}
-				try {
+				/*try {
 					if (datasource.CadastrarAtualizarUsuarioWS(usuario)) {
 						datasource.AtualizarFlagSincronizacaoUsuario(usuario);
 					}
@@ -69,6 +69,7 @@ public class ActivityCadastrarUsuario extends Activity implements
 							| Gravity.CENTER_VERTICAL, 0, 0);
 					toast.show();
 				}
+				*/
 
 				Intent intent = new Intent(ActivityCadastrarUsuario.this,
 						ActivityPrincipal.class);
